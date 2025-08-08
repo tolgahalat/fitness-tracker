@@ -57,16 +57,5 @@ public class ExerciseResource {
         }
         return Response.noContent().build();
     }
-
-//    @GET
-//    public List<Exercise> getAllExercises() {
-//        return Exercise.listAll();
-//    }
-//
-//    @POST
-//    public Exercise createExercise(Exercise exercise) {
-//        exercise.persist();
-//        return exercise;
-//    }
 }
 

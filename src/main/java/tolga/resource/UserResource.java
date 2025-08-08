@@ -60,16 +60,4 @@ public class UserResource {
         }
         return Response.noContent().build();
     }
-
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<User> getAllUsers() {
-//        return User.listAll();
-//    }
-//
-//    @GET
-//    @Path("/{id}")
-//    public User getUserById(@PathParam("id") Long id) {
-//        return User.findById(id);
-//    }
 }
