@@ -1,5 +1,6 @@
 package tolga.resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -7,11 +8,40 @@ import jakarta.ws.rs.core.Response;
 import tolga.entity.User;
 
 import java.util.List;
+import java.util.Map;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import jakarta.inject.Inject;
 
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
+
+    @Inject
+    JsonWebToken jwt;
+
+    @GET
+    @Path("/me")
+    @RolesAllowed("admin")
+    public Response me() {
+        String name = jwt.getClaim("name");  // login'de eklediğin custom claim
+        String sub  = jwt.getSubject();      // "sub"
+        return Response.ok(Map.of("userId", sub, "name", name)).build();
+    }
+
+    @GET
+    @Path("/mee")
+    @RolesAllowed("admin")
+    public Response me2() {
+        String email = jwt.getName();        // preferred_username -> upn -> sub
+        String userId = jwt.getSubject();    // "sub"
+        String name   = jwt.getClaim("name");
+        String upn    = jwt.getClaim("upn"); // mail adresini dönüyor yine.
+        return Response.ok(Map.of(
+                "userId", userId, "email", email, "name", name, "upn", upn
+        )).build();
+    }
 
     @GET
     public Response getAllUsers() {
